@@ -88,53 +88,101 @@
     const PLACEHOLDERIMG =
       "https://pngimg.com/uploads/football/football_PNG52781.png";
 
-    fetch(
-      `http://api.football-data.org/v2/competitions/${competitionId}/teams`,
-      {
-        method: "get",
-        mode: "cors",
-        headers: {
-          "X-Auth-Token": TOKENFD,
-        },
-      }
-    )
-      .then((response) => {
-        return response.json();
-      })
-      .then(({ competition, teams }) => {
-        $("#nama-kompetisi").html(competition.name);
-        let objGroupByNegara = {};
-        teams.forEach((el) => {
-          let negara = el.area.name;
-          !objGroupByNegara[negara] && (objGroupByNegara[negara] = []);
-          objGroupByNegara[negara].push(el);
-        });
-        for (const negara in objGroupByNegara) {
-          let cloneNegaraCard =
-            negaraCard.content.firstElementChild.cloneNode(true);
-          let tmptKlub = cloneNegaraCard.querySelector("#tempat-klub");
-          cloneNegaraCard.querySelector("#judul-negara").innerHTML = negara;
-          objGroupByNegara[negara].forEach((elm) => {
-            let cloneKlubCard =
-              klubCard.content.firstElementChild.cloneNode(true);
-            cloneKlubCard.querySelector("#gmbr").src = elm.crestUrl
-              ? elm.crestUrl
-              : PLACEHOLDERIMG;
-            cloneKlubCard.querySelector("#klub").innerHTML = elm.name;
-            cloneKlubCard.querySelector("#lokasi").innerHTML = elm.venue;
-            cloneKlubCard.querySelector(
-              "#link-card"
-            ).href = `pemain.html?id=${elm.id}&klubNama=${elm.name}&kompId=${competition.id}&kompNama=${competition.name}`;
-            tmptKlub.appendChild(cloneKlubCard);
+    const getCompetitionOnCountry = () => {
+      axios
+        .get(
+          `https://api.football-data.org/v2/competitions/${competitionId}/teams`,
+          {
+            headers: {
+              "X-Auth-Token": TOKENFD,
+            },
+            method: "cors",
+          }
+        )
+        .then(({ competition, teams }) => {
+          $("#nama-kompetisi").html(competition.name);
+          let objGroupByNegara = {};
+          teams.forEach((el) => {
+            let negara = el.area.name;
+            !objGroupByNegara[negara] && (objGroupByNegara[negara] = []);
+            objGroupByNegara[negara].push(el);
           });
-          document.getElementById("app").appendChild(cloneNegaraCard);
-        }
-        document
-          .getElementById("spinner-utama")
-          .classList.replace("d-flex", "d-none");
-      });
+          for (const negara in objGroupByNegara) {
+            let cloneNegaraCard =
+              negaraCard.content.firstElementChild.cloneNode(true);
+            let tmptKlub = cloneNegaraCard.querySelector("#tempat-klub");
+            cloneNegaraCard.querySelector("#judul-negara").innerHTML = negara;
+            objGroupByNegara[negara].forEach((elm) => {
+              let cloneKlubCard =
+                klubCard.content.firstElementChild.cloneNode(true);
+              cloneKlubCard.querySelector("#gmbr").src = elm.crestUrl
+                ? elm.crestUrl
+                : PLACEHOLDERIMG;
+              cloneKlubCard.querySelector("#klub").innerHTML = elm.name;
+              cloneKlubCard.querySelector("#lokasi").innerHTML = elm.venue;
+              cloneKlubCard.querySelector(
+                "#link-card"
+              ).href = `pemain.html?id=${elm.id}&klubNama=${elm.name}&kompId=${competition.id}&kompNama=${competition.name}`;
+              tmptKlub.appendChild(cloneKlubCard);
+            });
+            document.getElementById("app").appendChild(cloneNegaraCard);
+          }
+          document
+            .getElementById("spinner-utama")
+            .classList.replace("d-flex", "d-none");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    };
+    getCompetitionOnCountry();
+    // fetch(
+    //   `http://api.football-data.org/v2/competitions/${competitionId}/teams`,
+    //   {
+    //     method: "get",
+    //     mode: "cors",
+    //     headers: {
+    //       "X-Auth-Token": TOKENFD,
+    //     },
+    //   }
+    // )
+    //   .then((response) => {
+    //     return response.json();
+    //   })
+    // .then(({ competition, teams }) => {
+    //   $("#nama-kompetisi").html(competition.name);
+    //   let objGroupByNegara = {};
+    //   teams.forEach((el) => {
+    //     let negara = el.area.name;
+    //     !objGroupByNegara[negara] && (objGroupByNegara[negara] = []);
+    //     objGroupByNegara[negara].push(el);
+    //   });
+    //   for (const negara in objGroupByNegara) {
+    //     let cloneNegaraCard =
+    //       negaraCard.content.firstElementChild.cloneNode(true);
+    //     let tmptKlub = cloneNegaraCard.querySelector("#tempat-klub");
+    //     cloneNegaraCard.querySelector("#judul-negara").innerHTML = negara;
+    //     objGroupByNegara[negara].forEach((elm) => {
+    //       let cloneKlubCard =
+    //         klubCard.content.firstElementChild.cloneNode(true);
+    //       cloneKlubCard.querySelector("#gmbr").src = elm.crestUrl
+    //         ? elm.crestUrl
+    //         : PLACEHOLDERIMG;
+    //       cloneKlubCard.querySelector("#klub").innerHTML = elm.name;
+    //       cloneKlubCard.querySelector("#lokasi").innerHTML = elm.venue;
+    //       cloneKlubCard.querySelector(
+    //         "#link-card"
+    //       ).href = `pemain.html?id=${elm.id}&klubNama=${elm.name}&kompId=${competition.id}&kompNama=${competition.name}`;
+    //       tmptKlub.appendChild(cloneKlubCard);
+    //     });
+    //     document.getElementById("app").appendChild(cloneNegaraCard);
+    //   }
+    //   document
+    //     .getElementById("spinner-utama")
+    //     .classList.replace("d-flex", "d-none");
+    // });
   </script>
 
-  <script src="assets/js/getNavbar.js"></script>
-  <script src="assets/js/getFooter.js"></script>
+  <!-- <script src="assets/js/getNavbar.js"></script>
+  <script src="assets/js/getFooter.js"></script> -->
 </html>
