@@ -126,32 +126,49 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <!-- Sweet Alert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <template id="kartu-negara">
+    <template id="country-card">
       <div class="card">
         <div id="heading-card" class="card-header d-flex"></div>
         <div id="nama-liga"></div>
       </div>
     </template>
     <script>
-      const templateKartuNegara = document.getElementById("kartu-negara");
+      const countryCard = document.getElementById("country-card");
 
       const TOKENFD = "2a387b1f03a64802beb320a10941fd47";
       const PLACEHOLDERIMG =
         "https://pngimg.com/uploads/football/football_PNG52781.png";
       let competitions;
 
-      fetch("http://api.football-data.org/v2/competitions/", {
-        method: "get",
-        mode: "cors",
-        headers: {
-          "X-Auth-Token": TOKENFD,
-        },
-      })
-        .then((res) => res.json())
-        .then(({ competitions: c }) => {
-          competitions = c;
-          appendElms(c);
-        });
+      // fetch("http://api.football-data.org/v2/competitions/", {
+      //   method: "get",
+      //   mode: "cors",
+      //   headers: {
+      //     "X-Auth-Token": TOKENFD,
+      //   },
+      // })
+      //   .then((res) => res.json())
+      //   .then(({ competitions: c }) => {
+      //     competitions = c;
+      //     appendElms(c);
+      //   });
+      const getCompetitions = () => {
+        axios
+          .get("http://api.football-data.org/v2/competitions/", {
+            headers: {
+              "X-Auth-Token": TOKENFD,
+            },
+            mode: "cors",
+          })
+          .then(({ data: { competitions: c } }) => {
+            competitions = c;
+            appendElms(c);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+      getCompetitions();
 
       function appendElms(competitions) {
         // Kategorisasi setiap kompetisi dalam property negara
@@ -163,8 +180,7 @@
         });
         // Buatkan accordion bootstrap
         for (const namaNegara in objGroupByNegara) {
-          let kartu =
-            templateKartuNegara.content.firstElementChild.cloneNode(true);
+          let kartu = countryCard.content.firstElementChild.cloneNode(true);
           let urlBendera = objGroupByNegara[namaNegara][0].area.ensignUrl;
           let idNegara = objGroupByNegara[namaNegara][0].area.id;
           let bendera = urlBendera ? urlBendera : PLACEHOLDERIMG;
@@ -172,13 +188,13 @@
           let headingCard = kartu.querySelector("#heading-card");
           headingCard.id = `heading-${idNegara}`;
           headingCard.innerHTML = `<button id="judul-negara-${idNegara}" class="btn flex-grow-1 d-flex justify-content-center" type="button" data-toggle="collapse" data-target="#collapse-${idNegara}" aria-expanded="true" aria-controls="collapse-${idNegara}">
-                <div class="d-flex justify-content-start w-sm-50">
-                    <div class="d-flex justify-content-center rounded-circle overflow-hidden wh-50px mr-2">
-                        <img src="${bendera}" class="h-100">
-                    </div>
-                    <span class="align-self-center text-wrap">${namaNegara}</span>
+            <div class="d-flex justify-content-start w-sm-50">
+                <div class="d-flex justify-content-center rounded-circle overflow-hidden wh-50px mr-2">
+                    <img src="${bendera}" class="h-100">
                 </div>
-            </button>`;
+                <span class="align-self-center text-wrap">${namaNegara}</span>
+            </div>
+        </button>`;
           // Konten accordion-nya ketika kepala accrodion di-click
           let htmlContent = `<div id="collapse-${idNegara}" class="collapse" aria-labelledby="heading-${idNegara}" data-parent="#collapse">`;
           objGroupByNegara[namaNegara].forEach((kompetisi) => {
@@ -205,7 +221,7 @@
             .getElementById("spinner-liga")
             .classList.replace("d-flex", "d-none");
           document.getElementById("judul-sambutan").innerHTML =
-            "Liga Sepakbola";
+            "Football League";
         }
       }
 
