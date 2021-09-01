@@ -121,7 +121,7 @@
               cloneKlubCard.querySelector("#lokasi").innerHTML = elm.venue;
               cloneKlubCard.querySelector(
                 "#link-card"
-              ).href = `pemain.html?id=${elm.id}&klubNama=${elm.name}&kompId=${dataTeams.id}&kompNama=${dataTeams.name}`;
+              ).href = `player.html?id=${elm.id}&klubNama=${elm.name}&kompId=${dataTeams.id}&kompNama=${dataTeams.name}`;
               tmptKlub.appendChild(cloneKlubCard);
             });
             document.getElementById("app").appendChild(cloneNegaraCard);
