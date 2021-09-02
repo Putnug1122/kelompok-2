@@ -13,6 +13,11 @@
       crossorigin="anonymous"
     ></script>
     <link rel="stylesheet" href="style.css" />
+    <link
+      rel="shortcut icon"
+      href="/images/Icons8-Windows-8-Sports-Football-2.ico"
+      type="image/x-icon"
+    />
     <title>Kelompok 2</title>
   </head>
   <body>
@@ -56,9 +61,7 @@
     <!-- END NAVBAR SESSION -->
 
     <!-- BODY SESSION -->
-    <h3 id="judul-sambutan" class="p-2 blue text-light font-awide">
-      Loading...
-    </h3>
+    <h3 id="judul-sambutan" class="p-2 blue text-light font-lob">Loading...</h3>
     <div class="container">
       <div class="search-bar-utama" style="position: relative; z-index: 99">
         <div class="input-group">
@@ -140,18 +143,6 @@
         "https://pngimg.com/uploads/football/football_PNG52781.png";
       let competitions;
 
-      // fetch("http://api.football-data.org/v2/competitions/", {
-      //   method: "get",
-      //   mode: "cors",
-      //   headers: {
-      //     "X-Auth-Token": TOKENFD,
-      //   },
-      // })
-      //   .then((res) => res.json())
-      //   .then(({ competitions: c }) => {
-      //     competitions = c;
-      //     appendElms(c);
-      //   });
       const getCompetitions = () => {
         axios
           .get("http://api.football-data.org/v2/competitions/", {
@@ -171,20 +162,17 @@
       getCompetitions();
 
       function appendElms(competitions) {
-        // Kategorisasi setiap kompetisi dalam property negara
         let objGroupByNegara = {};
         competitions.forEach((negara) => {
           let namaNegara = negara.area.name;
           !objGroupByNegara[namaNegara] && (objGroupByNegara[namaNegara] = []);
           objGroupByNegara[namaNegara].push(negara);
         });
-        // Buatkan accordion bootstrap
         for (const namaNegara in objGroupByNegara) {
           let kartu = countryCard.content.firstElementChild.cloneNode(true);
           let urlBendera = objGroupByNegara[namaNegara][0].area.ensignUrl;
           let idNegara = objGroupByNegara[namaNegara][0].area.id;
           let bendera = urlBendera ? urlBendera : PLACEHOLDERIMG;
-          // Kepala accordion-nya
           let headingCard = kartu.querySelector("#heading-card");
           headingCard.id = `heading-${idNegara}`;
           headingCard.innerHTML = `<button id="judul-negara-${idNegara}" class="btn flex-grow-1 d-flex justify-content-center" type="button" data-toggle="collapse" data-target="#collapse-${idNegara}" aria-expanded="true" aria-controls="collapse-${idNegara}">
@@ -195,7 +183,6 @@
                 <span class="align-self-center text-wrap">${namaNegara}</span>
             </div>
         </button>`;
-          // Konten accordion-nya ketika kepala accrodion di-click
           let htmlContent = `<div id="collapse-${idNegara}" class="collapse" aria-labelledby="heading-${idNegara}" data-parent="#collapse">`;
           objGroupByNegara[namaNegara].forEach((kompetisi) => {
             let emblem = kompetisi.emblemUrl
@@ -212,11 +199,8 @@
                 </div>`;
           });
           htmlContent += `</div>`;
-          // Append konten accordion ke kepala accodion
           kartu.querySelector("#nama-liga").innerHTML = htmlContent;
-          // Append accoridon ke div yang sdh disediakan di body
           $("#collapse").append(kartu);
-          // Hilangkan spinner dari tampilan
           document
             .getElementById("spinner-liga")
             .classList.replace("d-flex", "d-none");
@@ -227,7 +211,6 @@
 
       const searchField = document.getElementById("search-utama");
       const searchRes = document.getElementById("search-res");
-      // Buat overlay supaya seluruh body gelap ketika keyup
       let searchBgOverlay = document.createElement("div");
       searchBgOverlay.className = "modal d-none";
       searchBgOverlay.style.backgroundColor = "black";

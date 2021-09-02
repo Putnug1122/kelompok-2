@@ -8,7 +8,11 @@
       content="upgrade-insecure-requests"
     />
     <title>SoccerUpdate - Select Player</title>
-    <link rel="shortcut icon" href="favicon.svg" type="image/x-icon" />
+    <link
+      rel="shortcut icon"
+      href="/images/Icons8-Windows-8-Sports-Football-2.ico"
+      type="image/x-icon"
+    />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
@@ -40,7 +44,7 @@
   </head>
 
   <body>
-    <h3 id="nama-klub" class="p-2 blue text-light font-awide">Loading...</h3>
+    <h3 id="nama-klub" class="p-2 blue text-light font-lob">Loading...</h3>
     <div class="container-fluid">
       <div id="spinner-pemain" class="d-flex justify-content-center mt-2">
         <div class="spinner-border" role="status">
@@ -69,7 +73,7 @@
 
   <template id="kartu-posisi">
     <div>
-      <div id="judul-posisi" class="h4 mt-4 text-center font-awide">Squad</div>
+      <div id="judul-posisi" class="h4 mt-4 text-center font-lob">Squad</div>
       <div class="titlesquad"></div>
       <div class="p-2">
         <div class="card">
@@ -90,7 +94,7 @@
 
     const TOKENFD = "2a387b1f03a64802beb320a10941fd47";
     const PLACEHOLDERIMG =
-      "https://cdn2.iconfinder.com/data/icons/metro-ui-dock/512/User_No-Frame.png";
+      "https://www.fcbarcelona.com/photo-resources/2020/02/28/504c822c-5fa1-44d5-8252-cdec93a519d8/Braithwaite-app.png?width=670&height=790";
 
     const getPlayer = async (id) => {
       const url = `https://api.football-data.org/v2/teams/${id}`;
@@ -119,7 +123,7 @@
             let htmlContent = "";
             objGroupByPos[position].forEach((person) => {
               htmlContent += `<div class="card d-flex flex-wrap pt-3 px-3 m-2 kartu-pemain">
-                        <a href="biodata.html?id=${person.id}&orgNama=${person.name}&klubId=${id}&klubNama=${name}&klubImg=${crestUrl}&kompId=${kompId}&kompNama=${kompNama}" class="d-flex align-items-center flex-column">
+                        <a href="player_detail.html?id=${person.id}&orgNama=${person.name}&klubId=${id}&klubNama=${name}&klubImg=${crestUrl}&kompId=${kompId}&kompNama=${kompNama}" class="d-flex align-items-center flex-column">
                             <img src="${PLACEHOLDERIMG}" class="card-img-top wh-100px">
                             <div class="card-body">
                                 <p class="card-title text-center">${person.name}</p>
@@ -138,7 +142,4 @@
     };
     getPlayer(klubId);
   </script>
-
-  <!-- <script src="assets/js/getNavbar.js"></script>
-  <script src="assets/js/getFooter.js"></script> -->
 </html>

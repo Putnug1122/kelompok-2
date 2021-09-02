@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Audiowide&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lobster&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
 .top-header {
@@ -23,7 +23,7 @@
 h1 {
   font-size: 64px;
   font-weight: bold;
-  font-family: "Poppins", sans-serif;
+  font-family: "Lobster", cursive;
 }
 
 nav {
@@ -97,19 +97,19 @@ nav a:hover {
   }
 }
 
-.font-awide {
-  font-family: audiowide;
+.font-lob {
+  font-family: "Lobster", cursive;
 }
 
 h1.text {
-  font-family: audiowide;
-  font-weight: lighter;
+  font-family: "Lobster", cursive;
+  /* font-weight: lighter; */
   color: #dbaa17ce !important;
 }
 
 .text {
-  font-family: audiowide;
-  font-weight: lighter;
+  font-family: "Lobster", cursive;
+  /* font-weight: lighter; */
   color: #dbaa17ce !important;
 }
 
